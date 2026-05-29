@@ -71,7 +71,7 @@ pytest tests -v
 
 The local runner writes Parquet so the project works without cloud credentials.
 In Databricks, the same logic writes Delta tables through
-`databricks/notebooks/order_quality_job.py`.
+`databricks/notebooks/order_quality_job.ipynb`.
 
 ## Output Tables
 
@@ -105,16 +105,36 @@ lakehouse/
 
 ## Databricks Deployment
 
-1. Upload `sample_data/orders/*.json` to `dbfs:/retail-quality/sample_data/orders/`.
-2. Import this repo into Databricks Repos.
-3. Create tables with `sql/databricks_table_ddl.sql` if you want explicit DDL.
-4. Deploy `databricks/job.yml` as a Databricks Asset Bundle job, or recreate the
-   same task graph in Workflows.
-5. Run the workflow and review:
+1. Create or use a Unity Catalog volume for raw files. This implementation uses:
+   `/Volumes/workspace/default/retail_quality_raw/`.
+2. Upload the sample JSON files into an `orders` folder under that volume:
+   `/Volumes/workspace/default/retail_quality_raw/orders/*.json`.
+3. Import this repo into a Databricks Git folder and open
+   `databricks/notebooks/order_quality_job.ipynb`.
+4. Run the notebook with these widget values:
+   - `task`: `all`
+   - `raw_path`: `/Volumes/workspace/default/retail_quality_raw`
+   - `schema_name`: `retail_quality`
+   - `pipeline_run_id`: any run id, or leave blank for an auto-generated value
+5. Create tables with `sql/databricks_table_ddl.sql` if you want explicit DDL.
+   The notebook can also create/overwrite the Delta tables through Spark writes.
+6. Deploy `databricks/job.yml` as a Databricks Asset Bundle job, or recreate the
+   same Bronze -> Silver -> Quality -> Gold task graph in Workflows.
+7. Run the workflow and review:
    - `retail_quality.quarantine_orders`
    - `retail_quality.quality_metrics_summary`
    - `retail_quality.gold_revenue_by_region`
    - `retail_quality.gold_daily_order_volume`
+
+Validation queries:
+
+```sql
+SHOW TABLES IN retail_quality;
+SELECT * FROM retail_quality.quarantine_orders;
+SELECT * FROM retail_quality.quality_metrics_summary;
+SELECT * FROM retail_quality.gold_revenue_by_region;
+SELECT * FROM retail_quality.gold_daily_order_volume;
+```
 
 ## Resume Bullets
 
