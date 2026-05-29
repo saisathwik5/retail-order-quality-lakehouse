@@ -1,0 +1,9 @@
+financial-lakehouse/
+hadoop-anomaly-pipeline/
+realtime-entity-tracking/
+test_iceberg_setup.py
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+lakehouse/
