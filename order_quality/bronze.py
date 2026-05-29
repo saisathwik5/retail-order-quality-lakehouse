@@ -20,4 +20,3 @@ def read_raw_orders(spark: SparkSession, path: str) -> DataFrame:
 def write_bronze(df: DataFrame, output_path: str, fmt: str = "parquet") -> None:
     """Persist Bronze data locally as Parquet or in Databricks as Delta."""
     df.write.format(fmt).mode("overwrite").save(output_path)
-
