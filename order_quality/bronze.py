@@ -11,7 +11,7 @@ def read_raw_orders(spark: SparkSession, path: str) -> DataFrame:
     return (
         spark.read.option("multiLine", "false")
         .json(path)
-        .withColumn("_source_file", F.input_file_name())
+        .withColumn("_source_file", F.col("_metadata.file_path"))
         .withColumn("_ingestion_ts", F.current_timestamp())
         .withColumn("_source_system", F.lit("retail_orders"))
     )
