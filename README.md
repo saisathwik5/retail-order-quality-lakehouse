@@ -136,6 +136,28 @@ SELECT * FROM retail_quality.gold_revenue_by_region;
 SELECT * FROM retail_quality.gold_daily_order_volume;
 ```
 
+## Databricks Run Evidence
+
+### Tables Created
+
+![Tables Created](docs/screenshots/01_tables_created.png)
+
+### Quarantine Orders
+
+![Quarantine Orders](docs/screenshots/02_quarantine_orders.png)
+
+### Quality Metrics Summary
+
+![Quality Metrics Summary](docs/screenshots/03_quality_metrics_summary.png)
+
+### Gold Daily Order Volume
+
+![Gold Daily Order Volume](docs/screenshots/04_gold_daily_order_volume.png)
+
+### Workflow Success
+
+![Workflow Success](docs/screenshots/05_workflow_success.png)
+
 ## Resume Bullets
 
 - Built a Databricks medallion lakehouse for retail orders with Bronze, Silver,
