@@ -1,0 +1,4 @@
+{"order_id":"ORD-1001","customer_id":"C-001","order_ts":"2026-05-01T09:15:00Z","region":"Northeast","product_id":"SKU-10","quantity":2,"unit_price":24.99,"discount_amount":0.00,"status":"PAID"}
+{"order_id":"ORD-1002","customer_id":"C-002","order_ts":"2026-05-01T10:05:00Z","region":"South","product_id":"SKU-20","quantity":1,"unit_price":199.99,"discount_amount":20.00,"status":"SHIPPED"}
+{"order_id":"ORD-1003","customer_id":"C-003","order_ts":"2026-05-01T11:22:00Z","region":"West","product_id":"SKU-30","quantity":4,"unit_price":12.50,"discount_amount":0.00,"status":"CREATED"}
+{"order_id":"ORD-1004","customer_id":"C-004","order_ts":"2026-05-01T12:45:00Z","region":"Midwest","product_id":"SKU-40","quantity":1,"unit_price":85.00,"discount_amount":5.00,"status":"PAID"}

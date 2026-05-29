@@ -1,0 +1,57 @@
+resources:
+  jobs:
+    retail_order_quality_lakehouse:
+      name: retail-order-quality-lakehouse
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: bronze_ingest
+          notebook_task:
+            notebook_path: /Repos/retail-order-quality-lakehouse/databricks/notebooks/order_quality_job
+            base_parameters:
+              task: bronze
+              raw_path: dbfs:/retail-quality/sample_data
+              schema_name: retail_quality
+          new_cluster: &job_cluster
+            spark_version: 15.4.x-scala2.12
+            node_type_id: i3.xlarge
+            num_workers: 1
+            spark_conf:
+              spark.sql.session.timeZone: UTC
+          max_retries: 2
+          min_retry_interval_millis: 120000
+
+        - task_key: silver_standardize_and_schema_checks
+          depends_on:
+            - task_key: bronze_ingest
+          notebook_task:
+            notebook_path: /Repos/retail-order-quality-lakehouse/databricks/notebooks/order_quality_job
+            base_parameters:
+              task: silver
+              schema_name: retail_quality
+          new_cluster: *job_cluster
+          max_retries: 2
+          min_retry_interval_millis: 120000
+
+        - task_key: quality_gate_and_quarantine
+          depends_on:
+            - task_key: silver_standardize_and_schema_checks
+          notebook_task:
+            notebook_path: /Repos/retail-order-quality-lakehouse/databricks/notebooks/order_quality_job
+            base_parameters:
+              task: quality
+              schema_name: retail_quality
+          new_cluster: *job_cluster
+          max_retries: 2
+          min_retry_interval_millis: 120000
+
+        - task_key: gold_business_outputs
+          depends_on:
+            - task_key: quality_gate_and_quarantine
+          notebook_task:
+            notebook_path: /Repos/retail-order-quality-lakehouse/databricks/notebooks/order_quality_job
+            base_parameters:
+              task: gold
+              schema_name: retail_quality
+          new_cluster: *job_cluster
+          max_retries: 2
+          min_retry_interval_millis: 120000
