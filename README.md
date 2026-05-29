@@ -158,14 +158,3 @@ SELECT * FROM retail_quality.gold_daily_order_volume;
 
 ![Workflow Success](docs/screenshots/05_workflow_success.png)
 
-## Resume Bullets
-
-- Built a Databricks medallion lakehouse for retail orders with Bronze, Silver,
-  Gold, quarantine, and quality metrics Delta tables.
-- Implemented reusable data quality gates for row-count reconciliation, null
-  checks, schema drift detection, duplicate flagging, and invalid business values.
-- Designed a quarantine pattern that preserves failed records with reason codes
-  before curated Gold publishing.
-- Orchestrated the pipeline with Databricks Workflows dependency chaining,
-  retries, and task-level notebook parameters.
-- Published Gold SQL analytics for daily order volume and revenue by region.
